@@ -29,7 +29,7 @@ In this case in the `$table` database table all records' `first_name` and `last_
 Let's say we have the following *starter* table.
 
 | id | first_name | last_name | passport_number | sex |
-| ---|------------| ----------|-----------------|-----|
+|----|------------|-----------|-----------------|-----|
 | 1  | John       | Doe       | 123456789AA     | M   |
 | 2  | Jane       | Gauranga  | 987456789AA     | F   | 
 | 3  | Trevor     | Davis     | 985631458ZZ     | M   |
@@ -37,7 +37,7 @@ Let's say we have the following *starter* table.
 The simple mixing *may* give us the following result
 
 | id | first_name | last_name | passport_number | sex |
-| ---|------------| ----------|-----------------|-----|
+|----|------------|-----------|-----------------|-----|
 | 1  | Jane       | Davis     | 123456789AA     | M   |
 | 2  | John       | Gauranga  | 987456789AA     | F   |
 | 3  | Trevor     | Doe       | 985631458ZZ     | M   |
@@ -56,7 +56,7 @@ In this case in the `$table` database table all records' `first_name` and `last_
 The dependent mixing *may* give us the following result from the same *starter* table
 
 | id | first_name | last_name | passport_number | sex |
-| ---|------------| ----------|-----------------|-----|
+|----|------------|-----------|-----------------|-----|
 | 1  | Trevor     | Gauranga  | 123456789AA     | M   |
 | 2  | Jane       | Doe       | 987456789AA     | F   |
 | 3  | John       | Davis     | 985631458ZZ     | M   |
