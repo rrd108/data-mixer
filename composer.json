@@ -1,0 +1,31 @@
+{
+    "name": "rrd/data-mixer",
+    "description": "A simple tool to create test data from existing database by mixing records",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "rrd108",
+            "email": "rrd@1108.cc"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.7|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "DataMixer\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DataMixer\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --colors=always"
+    },
+    "prefer-stable": true
+}
