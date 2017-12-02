@@ -6,7 +6,7 @@ have in your production enviroment. This script reads your exisiting data and
 mix its content.
 
 # Installation
-There is no installation process, however you have to have PHP installed on your system.
+`composer --require-dev rrd108/data-mixer`
 
 # Usage
 1. Create a backup of your production data and copy it to your development enviroment. **NEVER** use this tool in production, as you can accidently mix your data. **NO RESTORE, NO UNDO, NO CANCEL** method, what is mixed once, can not be reverted without a backup.
