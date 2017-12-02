@@ -11,11 +11,16 @@ mix its content.
 # Usage
 1. Create a backup of your production data and copy it to your development enviroment. **NEVER** use this tool in production, as you can accidently mix your data. **NO RESTORE, NO UNDO, NO CANCEL** method, what is mixed once, can not be reverted without a backup.
 
-2. Open `data_mixer.php` and change the values of `$host`, `$database_user`, `$database_password`, `$database` and `$table` variables.
+2. Create a new object in your code. DataMixer accepts the same arguments as PDO.
+`$dataMixer = new DataMixer('mysql:dbname=test;host=localhost', 'user', 'superSecret');`
 
 3. Define your selected fields to be mixed in the `$fields` variable.
 
-4. Run the script via command line or via your browser.
+4. Get your mixed data and modify it if you want.
+`$mixed = $dataMixer->getMixed($table, $fields);`
+
+5. Update your records in tha database. This will actually update your database, so be careful, **NO RESTORE, NO UNDO, NO CANCEL** method.
+`$dataMixer->updateRows($mixed);`
 
 # `$fields` array
 The fields defined in `$fields` array will be mixed.
@@ -51,7 +56,7 @@ $fields = [
     'last_name'
 ];
 ```
-In this case in the `$table` database table all records' `first_name` and `last_name` values will be mixed randomly like in simple mixing, but `first_name` set to be dependent on the value of the `sex` field. It means on mixing the script will only select first names from other records where the value of the sex filed is the same.
+In this case in the `$table` database table all records' `first_name` and `last_name` values will be mixed randomly like in simple mixing, but `first_name` set to be dependent on the value of the `sex` field. It means on mixing the script will only select first names from other records where the value of the `sex` field is the same.
 
 The dependent mixing *may* give us the following result from the same *starter* table
 
