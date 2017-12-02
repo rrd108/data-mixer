@@ -20,7 +20,7 @@ class DataMixer
      *
      * examples:
      *      new DataMixer('mysql:dbname=testdb;host=127.0.0.1', 'user', 'superSecret');
-     *      new DataMixer('sqlite3::memory:', null, null, [PDO::ATTR_PERSISTENT => true]);
+     *      new DataMixer('sqlite::memory:', null, null, [PDO::ATTR_PERSISTENT => true]);
      *
      * @param string      $dsn
      * @param string|null $username
