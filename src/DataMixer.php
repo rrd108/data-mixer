@@ -3,7 +3,8 @@
 namespace DataMixer;
 
 use InvalidArgumentException;
-use mysqli;
+use PDO;
+use PDOException;
 
 /**
  * Class DataMixer
@@ -12,21 +13,23 @@ use mysqli;
  */
 class DataMixer
 {
-
-    private $mysqli;
-
-    public function __construct(array $options)
+    /**
+     * DataMixer constructor.
+     *
+     * Connects to a database server
+     *
+     * examples:
+     *      new DataMixer('mysql:dbname=testdb;host=127.0.0.1', 'user', 'superSecret');
+     *      new DataMixer('sqlite3::memory:', null, null, [PDO::ATTR_PERSISTENT => true]);
+     *
+     * @param string      $dsn
+     * @param string|null $username
+     * @param string|null $passwd
+     * @param array       $options
+     */
+    public function __construct(string $dsn, string $username = null, string $passwd = null, array $options = [])
     {
-        $this->mysqli = new mysqli(
-            $options['dbHost'],
-            $options['dbUser'],
-            $options['dbPassword'],
-            $options['dbName']
-        );
-
-        if ($this->mysqli->connect_errno) {
-            throw new InvalidArgumentException('Connection failed ' . $this->mysqli->connect_error);
-        }
+        $this->pdo = new PDO($dsn, $username, $passwd, $options);
     }
 
     /**
@@ -71,38 +74,35 @@ class DataMixer
         return $mixed;
     }
 
+    /**
+     * update database rows
+     *
+     * @param array $mixed
+     * @return int
+     */
     public function updateRows(array $mixed)
     {
-        //TODO use prepared statements
+        $i = 0;
         foreach ($mixed as $table => $row) {
             foreach ($row as $id => $data) {
                 $sql = 'UPDATE ' . $table . ' SET ';
                 foreach ($data as $key => $value) {
+                    //TODO do some filtering
                     $sql .= $key . ' = "' . $value . '", ';
                 }
                 $sql = rtrim($sql, ', ');
                 $sql .= ' WHERE id = ' . $id .';';
-                //$this->mysqli->query($sql);
-                print $sql . "\n";
+                $this->pdo->query($sql);
+                $i++;
             }
         }
+        return $i;
     }
 
     public function getRows(string $table)
     {
-        $result = $this->mysqli->query('SELECT * FROM ' . $table);
-        $values = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $values[$row['id']] = $row;
-        }
-        $result->close();
-
+        $statement = $this->pdo->query('SELECT * FROM ' . $table);
+        $values = $statement->fetchAll(PDO::FETCH_UNIQUE | PDO::FETCH_ASSOC);
         return $values;
-    }
-
-    protected function close()
-    {
-        $this->mysqli->close();
     }
 }
