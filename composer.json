@@ -1,5 +1,5 @@
 {
-    "name": "rrd/data-mixer",
+    "name": "rrd108/data-mixer",
     "description": "A simple tool to create test data from existing database by mixing records",
     "type": "library",
     "license": "MIT",
