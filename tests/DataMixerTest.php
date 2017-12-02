@@ -8,30 +8,26 @@ class DataMixerTest extends TestCase
 {
     public function setUp()
     {
-        parent::setUp();
-        $this->dataMixer = new DataMixer(
-            [
-                'dbHost' => 'localhost',
-                'dbUser' => 'root',
-                'dbPassword' => '123',
-                'dbName' => 'test'
-            ]
-        );
-        //TODO insert fixtures
-    }
+        $this->users = [
+            1 => ['id' => 1, 'first_name' => 'Anna', 'last_name' => 'Algol', 'sex' => 'F'],
+            2 => ['id' => 2, 'first_name' => 'Bella', 'last_name' => 'Basic', 'sex' => null],
+            3 => ['id' => 3, 'first_name' => 'Cintia', 'last_name' => 'Csarph', 'sex' => 'F'],
+            4 => ['id' => 4, 'first_name' => 'Daniel', 'last_name' => 'Dart', 'sex' => 'M'],
+            6 => ['id' => 6, 'first_name' => 'Elen', 'last_name' => 'Ecmascript', 'sex' => 'F']
+        ];
 
-    public function testGetRows()
-    {
-        $actual = $this->dataMixer->getRows('users');
-        $this->assertEquals(
-            ['id' => 1, 'first_name' => 'Anna', 'last_name' => 'Algol', 'sex' => 'F'],
-            $actual[1]
-        );
+        $this->dataMixer = $this->getMockBuilder(DataMixer::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getRows'])
+            ->getMock();
+
+        $this->dataMixer->expects($this->any())
+            ->method('getRows')
+            ->willReturn($this->users);
     }
 
     public function testSimpleMix()
     {
-        //TODO mock array_rand replace with array reverse
         $actual = $this->dataMixer->getMixed('users', ['first_name', 'last_name']);
         $this->assertNotEquals(
             ['id' => 1, 'first_name' => 'Anna', 'last_name' => 'Algol', 'sex' => 'F'],
@@ -41,23 +37,13 @@ class DataMixerTest extends TestCase
 
     public function testDependentMix()
     {
-        //TODO mock array_rand replace with array reverse
-        $actual = $this->dataMixer->getMixed('users', ['first_name'=> 'sex', 'last_name']);
+        $actual = $this->dataMixer->getMixed('users', ['first_name' => 'sex', 'last_name']);
         $this->assertNotEquals(
             ['id' => 1, 'first_name' => 'Anna', 'last_name' => 'Algol', 'sex' => 'F'],
             $actual['users'][1]
         );
+        //Bella and Daniel are unique on sex so they should not be mixed
         $this->assertEquals('Bella', $actual['users'][2]['first_name']);
         $this->assertEquals('Daniel', $actual['users'][4]['first_name']);
-    }
-
-    public function testUpdateRows()
-    {
-        $mixed = $this->dataMixer->getMixed('users', ['first_name'=> 'sex', 'last_name']);
-        $actual = $this->dataMixer->updateRows($mixed);
-
-        $mixed = $this->dataMixer->getMixed('users', ['first_name', 'last_name']);
-        $actual = $this->dataMixer->updateRows($mixed);
-
     }
 }
