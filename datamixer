@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+require './src/DataMixer.php';
+use DataMixer\DataMixer;
+
+echo '****************************************************' . "\n";
+echo '***BE CAREFUL YOUR DATA WILL BE PERMANENTLY MIXED***' . "\n";
+echo 'PDO dsn string (for example: mysql:dbname=test;host=localhost): ';
+$handle = fopen ("php://stdin","r");
+$dsn = trim(fgets($handle));
+$dsn = $dsn ? $dsn : 'mysql:dbname=test;host=localhost';
+echo 'PDO username: ';
+$user = trim(fgets($handle));
+echo 'PDO password: ';      //TODO hide it from the screen
+$password = trim(fgets($handle));
+
+try {
+    $dataMixer = new DataMixer($dsn, $user, $password);
+    echo "\033[30m\033[42m" . 'Connected to the database' . "\033[0m\n";
+    echo 'Table name: ';
+    $table = trim(fgets($handle));
+    echo 'Fields (for example: first_name => sex, last_name) ';
+    $fields = [];
+    $_fields = explode(',', trim(fgets($handle)));
+    foreach ($_fields as $_field) {
+        if (strpos($_field, '=>')) {
+            $parts = explode('=>', $_field);
+            $fields[trim($parts[0])] = trim($parts[1]);
+        } else {
+            $fields[] = $_field;
+        }
+    }
+    $changed = $dataMixer->mix($table, $fields);
+    echo "\033[30m\033[42m" . $changed . ' records mixed' . "\033[0m\n";
+} catch (Exception $e) {
+    echo '****************************************************' . "\n";
+    echo "\033[37m\033[41m" . $e->getMessage() . "\033[0m\n";
+    echo '****************************************************' . "\n";
+}
+

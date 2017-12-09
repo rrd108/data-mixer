@@ -24,6 +24,7 @@
             "DataMixer\\Test\\": "tests"
         }
     },
+    "bin": ["datamixer"],
     "scripts": {
         "test": "phpunit --colors=always"
     },

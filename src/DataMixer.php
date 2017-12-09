@@ -33,6 +33,21 @@ class DataMixer
     }
 
     /**
+     * Mix records
+     *
+     * @param string $table
+     * @param array  $fields
+     *  simple array like ['first_name', 'last_name']
+     *  or dependent array like ['first_name'=> 'sex', 'last_name']
+     * @return int
+     */
+    public function mix(string $table, array $fields)
+    {
+        $mixed = $this->getMixed($table, $fields);
+        return $this->updateRows($mixed);
+    }
+
+    /**
      * Get mixed rows
      *
      * @param string $table

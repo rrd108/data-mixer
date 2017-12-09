@@ -67,3 +67,12 @@ The dependent mixing *may* give us the following result from the same *starter* 
 | 3  | John       | Davis     | 985631458ZZ     | M   |
 
 As we had only one female in our table and `first_name` is dependent on `sex`, there was nobody to mix with the first name. That is why Jane kept her first name.
+
+# CLI Usage
+The package can be used as a shell script.
+`$ vendor/bin/datamixer`
+
+The script will ask the PDO dsn string, username and password for connecting to the database, than the table name and the `fileds` array.
+
+The `fileds` array shoud be define like this:
+`first_name => sex, last_name`
