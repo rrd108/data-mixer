@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-require './src/DataMixer.php';
+require __DIR__ . '/src/DataMixer.php';
 use DataMixer\DataMixer;
 
 echo '****************************************************' . "\n";
